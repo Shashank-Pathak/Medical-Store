@@ -1,0 +1,63 @@
+@charset "UTF-8";
+
+.main{
+height: 100vh;
+}
+.header{
+font-size: 4em;
+color: #000;
+background-color: #74AF57;
+text-align: center;
+margin: auto;
+}
+.main-content{
+height: 90%;
+background-color: #C4C5C3;
+margin: auto;
+}
+/*.navbar{
+width:50%;
+text-align: center;
+margin: auto;
+}*/
+.logout-btn{
+    padding: 5px;
+    font-size: 17px;
+    text-decoration: none;
+    color: black;
+    background-color: #d8d8d8;
+    border-radius: 5px;
+}
+.navbar-option-list{
+	list-style-type: none;
+	padding: 20px;
+    background-color: #C1C2C1;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+.navbar-option{
+display: inline;
+}
+.navbar-option a {
+background-color: #4CAF50;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    cursor: pointer;
+}
+.navbar-option a:hover:not(.active) {
+    background-color: #77B181;
+}
+.active{
+background-color: #4CAF50;
+}
+
+#addMedicine, #viewMedicineById, #medicinesList,#deleteMedicineById{
+}
+
+#medInfo {
+	position : relative;
+}
+
+

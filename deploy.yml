@@ -1,0 +1,55 @@
+- hosts: 10.77.195.186
+
+  user: rohit
+  become: yes
+  become_user: rohit
+
+  tasks:
+  - name: Block creation
+    block:
+
+      - name: Step-1  -> "Removing container if it exists"
+        shell: docker container kill medical_store_project &&  docker container rm medical_store_project
+
+    rescue:
+
+      - name: Step -> "Container does not exist"
+        debug: msg='Creating image from latest war'
+
+
+
+    always:
+
+      - name: Step-2-> "Creation of folder in Server"
+        file:
+          path : '/home/rohit/myapp'
+          state : directory
+          mode : 0777
+
+      - name: Step-3 -> "Pushing war from target to Server"
+        copy:
+          src: /var/lib/jenkins/workspace/MedicalStore/target/MedicalStoreProject.war
+          dest: /home/rohit/myapp/MedicalStoreProject.war
+
+      - name: Step-4 -> "Docker File creation"
+        copy:
+          dest: /home/rohit/myapp/Dockerfile
+          content: |
+            FROM tomcat:8
+            ADD MedicalStoreProject.war /usr/local/tomcat/webapps
+            EXPOSE 8080
+            CMD ["catalina.sh","run"]
+
+      - name: Step-5 -> "Build Docker Image as no image available"
+        shell: docker build -t medical_container /home/rohit/myapp/
+
+      - name: Step-6 -> "Creating the container"
+        shell: docker container run -d -p 10083:8080 --name=medical_store_project medical_container
+
+      - name: Step-7 -> "Remove folder and file from server"
+        file:
+          state: absent
+          path:  /home/rohit/myapp/
+
+      - name: "Successful"
+        debug: msg='Container is up. You can acces it on localhost:10083'
